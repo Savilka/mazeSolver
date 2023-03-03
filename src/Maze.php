@@ -16,30 +16,29 @@ class Maze
     public function __construct(array $data)
     {
         $this->data = $data;
-        $counterForBreak = 0;
         $counterForStart = 0;
         $counterForFinish = 0;
         foreach ($data as $i => $row) {
-            if ($column = array_search(-1, $row)) {
-                $this->start = new Point($column, $i);
-                $counterForBreak++;
-                $counterForStart++;
-                if ($counterForBreak == 2) break;
+            foreach ($row as $j => $element) {
+                if ($element == -1) {
+                    $counterForStart++;
+                    if ($counterForStart > 1) break 2;
+                    $this->start = new Point($j, $i);
+                }
+                if ($element == 10) {
+                    $counterForFinish++;
+                    if ($counterForFinish > 1) break 2;
+                    $this->finish = new Point($j, $i);
+                }
             }
-            if ($column = array_search(10, $row)) {
-                $this->finish = new Point($column, $i);
-                $counterForBreak++;
-                $counterForFinish++;
-                if ($counterForBreak == 2) break;
-            }
+        }
+
+        if ($counterForStart > 1 || $counterForFinish > 1) {
+            throw new Exception('Больше одной точки старта или финиша');
         }
 
         if (!isset($this->finish) || !isset($this->start)) {
             throw new Exception('Не заданы точки начала или финиша');
-        }
-
-        if ($counterForStart != 1 || $counterForFinish != 1) {
-            throw new Exception('Больше одной точки старта или финиша');
         }
     }
 
