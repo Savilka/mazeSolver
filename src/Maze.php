@@ -17,23 +17,29 @@ class Maze
     {
         $this->data = $data;
         $counterForBreak = 0;
+        $counterForStart = 0;
+        $counterForFinish = 0;
         foreach ($data as $i => $row) {
             if ($column = array_search(-1, $row)) {
                 $this->start = new Point($column, $i);
                 $counterForBreak++;
+                $counterForStart++;
                 if ($counterForBreak == 2) break;
             }
             if ($column = array_search(10, $row)) {
                 $this->finish = new Point($column, $i);
                 $counterForBreak++;
+                $counterForFinish++;
                 if ($counterForBreak == 2) break;
             }
         }
 
-        $a = !isset($this->finish);
-        $b = !isset($this->start);
         if (!isset($this->finish) || !isset($this->start)) {
             throw new Exception('Не заданы точки начала или финиша');
+        }
+
+        if ($counterForStart != 1 || $counterForFinish != 1) {
+            throw new Exception('Больше одной точки старта или финиша');
         }
     }
 
