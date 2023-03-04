@@ -13,10 +13,10 @@
 <body>
 <form action="" method="post">
     <label>Высота (N)
-        <input type="number" name="N" min="1">
+        <input type="number" name="N" min="1" max="30">
     </label>
     <label>Ширина (M)
-        <input type="number" name="M" min="1">
+        <input type="number" name="M" min="1" max="30">
     </label>
     <input type="submit" value="Создать лабиринт">
 </form>
