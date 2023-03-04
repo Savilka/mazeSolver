@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 class MazeTest extends TestCase
 {
-    public function constructProvider()
+    public static function constructProvider()
     {
         return [
             // Лабиринт без старта и финиша
@@ -94,7 +94,7 @@ class MazeTest extends TestCase
         new Maze($data);
     }
 
-    public function mazeProvider()
+    public static function mazeProvider()
     {
         return [
             [
