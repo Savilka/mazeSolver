@@ -30,21 +30,8 @@ if (isset($_POST['N']) && isset($_POST['M'])) {
     for ($i = 1; $i <= $n; $i++): ?>
         <tr> <?php
             for ($j = 1; $j <= $m; $j++):?>
-                <td>
-                    <select name="<?= $i . $j ?>">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="-1">Старт</option>
-                        <option value="10">Финиш</option>
-                    </select>
+                <td >
+                    <input type="text" name="<?= $i . '.' . $j ?>" style="width: 45px; height: 30px" pattern="\10|-*[1]|[1234567890]" required>
                 </td>
             <?php endfor; ?>
         </tr>
@@ -54,11 +41,20 @@ if (isset($_POST['N']) && isset($_POST['M'])) {
     echo '<input type="submit" value="Найти путь">';
     echo '</form>';
 }
+
 ?>
 <span id="errors"></span>
 <span id="cost"></span>
 <script>
     $(document).ready(function () {
+
+        $('table input').first().on('input', function() {
+            let str = $(this).val();
+            str = str.split(' ');
+            $('table input').each(function(index) {
+                $(this).val(str[index]);
+            });
+        })
 
         $('#maze').submit(function (e) {
             e.preventDefault();
