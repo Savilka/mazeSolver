@@ -2,12 +2,28 @@
 
 namespace App;
 
+/**
+ * Класс, используемый для хранения стоимости пути до определенной точки.
+ * При необходимости, можно модифицировать для нахождения кратчайшего пути
+ */
 class MazeNode
 {
+    /**
+     * Стоимость прохода до точки
+     * @var int
+     */
     public int $cost;
-    public ?Point $point;
+    /**
+     * Координаты точки
+     * @var Point
+     */
+    public Point $point;
 
-    public function __construct(?Point $point, int $cost)
+    /**
+     * @param Point $point
+     * @param int $cost
+     */
+    public function __construct(Point $point, int $cost)
     {
         $this->cost = $cost;
         $this->point = $point;
