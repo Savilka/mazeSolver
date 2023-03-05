@@ -30,8 +30,8 @@ if (isset($_POST['N']) && isset($_POST['M'])) {
     for ($i = 1; $i <= $n; $i++): ?>
         <tr> <?php
             for ($j = 1; $j <= $m; $j++):?>
-                <td >
-                    <input type="text" name="<?= $i . '.' . $j ?>" style="width: 45px; height: 30px" pattern="\10|-*[1]|[1234567890]" required>
+                <td>
+                    <input type="number" name="<?= $i . '.' . $j ?>" style="width: 45px; height: 30px" required min="-1" max="10">
                 </td>
             <?php endfor; ?>
         </tr>
@@ -48,11 +48,17 @@ if (isset($_POST['N']) && isset($_POST['M'])) {
 <script>
     $(document).ready(function () {
 
-        $('table input').first().on('input', function() {
-            let str = $(this).val();
-            str = str.split(' ');
-            $('table input').each(function(index) {
-                $(this).val(str[index]);
+        $('table input').first().on('paste', function (event) {
+            event.preventDefault();
+            let clipboardData = event.clipboardData || window.clipboardData || event.originalEvent.clipboardData;
+            let pastedData = clipboardData.getData('Text');
+            let str = pastedData.split(' ');
+
+            $('table input').each(function (index) {
+                console.log(str[index]);
+                if (str[index] <= 10 && str[index] >= -1) {
+                    $(this).val(str[index]);
+                }
             });
         })
 
