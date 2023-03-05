@@ -4,13 +4,30 @@ namespace App;
 
 use Exception;
 
+/**
+ * Основной класс для нахождения кратчайшего пути в лабиринте
+ */
 class Maze
 {
+    /**
+     * Массив, в котором хранится лабиринт
+     * @var array
+     */
     private array $data;
+    /**
+     * Начальная точка лабиринта
+     * @var Point
+     */
     private Point $start;
+    /**
+     * Конечная точка лабиринта
+     * @var Point
+     */
     private Point $finish;
 
     /**
+     * Создает объект класса Maze. На вход получает двумерный массив, описывающий лабиринт
+     * @param array $data
      * @throws Exception
      */
     public function __construct(array $data)
@@ -42,6 +59,10 @@ class Maze
         }
     }
 
+    /**
+     * Находит кратчайший путь в лабиринте. Использует алгоритм Дейкстры
+     * @return int
+     */
     public function findPathCost(): int
     {
         $candidates = [];
@@ -95,6 +116,11 @@ class Maze
 
     }
 
+    /**
+     * Метод находит все возможные вертикальные и горизонтальные пути для переданной точки
+     * @param Point $point
+     * @return array
+     */
     private function getNearbyNodes(Point $point): array
     {
         $nodes = [
@@ -111,12 +137,22 @@ class Maze
         return $nodes;
     }
 
+    /**
+     * Метод проверяет является ли точка стеной лабиринта
+     * @param Point $point
+     * @return bool
+     */
     private function isWall(Point $point): bool
     {
         if ($this->insideMaze($point) && $this->data[$point->y][$point->x] == 0) return true;
         return false;
     }
 
+    /**
+     * Мето проверяет находится ли точка внутри лабиринта
+     * @param Point $point
+     * @return bool
+     */
     private function insideMaze(Point $point): bool
     {
         if ($point->x >= 0 && $point->y >= 0) return true;

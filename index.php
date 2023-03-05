@@ -31,20 +31,7 @@ if (isset($_POST['N']) && isset($_POST['M'])) {
         <tr> <?php
             for ($j = 1; $j <= $m; $j++):?>
                 <td>
-                    <select name="<?= $i . $j ?>">
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="-1">Старт</option>
-                        <option value="10">Финиш</option>
-                    </select>
+                    <input type="number" name="<?= $i . '.' . $j ?>" style="width: 45px; height: 30px" required min="-1" max="10">
                 </td>
             <?php endfor; ?>
         </tr>
@@ -54,11 +41,26 @@ if (isset($_POST['N']) && isset($_POST['M'])) {
     echo '<input type="submit" value="Найти путь">';
     echo '</form>';
 }
+
 ?>
 <span id="errors"></span>
 <span id="cost"></span>
 <script>
     $(document).ready(function () {
+
+        $('table input').first().on('paste', function (event) {
+            event.preventDefault();
+            let clipboardData = event.clipboardData || window.clipboardData || event.originalEvent.clipboardData;
+            let pastedData = clipboardData.getData('Text');
+            let str = pastedData.split(' ');
+
+            $('table input').each(function (index) {
+                console.log(str[index]);
+                if (str[index] <= 10 && str[index] >= -1) {
+                    $(this).val(str[index]);
+                }
+            });
+        })
 
         $('#maze').submit(function (e) {
             e.preventDefault();
